@@ -26,7 +26,9 @@ public class Main {
         if (values.isErrorFree()) {
             logger.debug("begin creating the Jasper Report");
             CreateReport createReport = new CreateReport();
-            createReport.setFilename(values.getJasperFile());
+            if (values.getOutputFileName() != null) {
+                createReport.setFilename(values.getOutputFileName());
+            }
 
             JasperPrint print = createReport.printFromXml(values.getJasperFile(), values.getXmlFile());
             createReport.createPdf(print);

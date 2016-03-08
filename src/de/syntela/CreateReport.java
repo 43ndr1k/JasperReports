@@ -28,7 +28,7 @@ public class CreateReport {
      * Pfad wo die Output Daten gepeichert werden sollen.
      */
     static String outputPfad = "C:\\jasperoutput\\";
-    String filename = "";
+    String filename = "report";
 
     /**
      * Setzt den Pfad für die Ausgabe Datei.
@@ -54,16 +54,18 @@ public class CreateReport {
      */
     public JasperPrint printFromXml(String jasperfile, String xmlfile) {
         JasperPrint print = null;
-        String xmlPfad = "H:\\Bewilligungsbeispiele\\";
-        String jasperPfad = "C:\\Users\\hsawade\\JaspersoftWorkspace\\Test\\";
+        //String xmlPfad = "H:\\Bewilligungsbeispiele\\";
+        //String jasperPfad = "C:\\Users\\hsawade\\JaspersoftWorkspace\\Test\\";
         try {
+            logger.debug("creating print Object from the xml File and Jasper File.");
             Map<String, Object> parameter = new HashMap<>();
-            File file = new File(xmlPfad + xmlfile);
+            File file = new File(xmlfile);
             JRXmlDataSource jrds = new JRXmlDataSource(file, "*/*");
             Document document = JRXmlUtils.parse(file);
             parameter.put(JRXPathQueryExecuterFactory.PARAMETER_XML_DATA_DOCUMENT, document);
             //parameter.put("parTest", "Test");
-            print = JasperFillManager.fillReport(jasperPfad + jasperfile,parameter, jrds);
+            logger.debug("Fill the print Object.");
+            print = JasperFillManager.fillReport(jasperfile,parameter, jrds);
         } catch (JRException e) {
             e.printStackTrace();
             logger.error(e.getMessage());
@@ -77,6 +79,7 @@ public class CreateReport {
      */
     public void createPdf(JasperPrint print) {
         try {
+            logger.debug("creating Pdf File from the JasperReport print Object.");
             JasperExportManager.exportReportToPdfFile(print,outputPfad + filename + ".pdf");
         } catch (JRException e) {
             e.printStackTrace();
@@ -90,6 +93,7 @@ public class CreateReport {
      */
     public void createXls(JasperPrint print) {
         try {
+            logger.debug("creating Xls File from the JasperReport print Object.");
             JRXlsExporter xlsExporter = new JRXlsExporter();
             xlsExporter.setExporterInput(new SimpleExporterInput(print));
             xlsExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(outputPfad + filename + ".xls"));

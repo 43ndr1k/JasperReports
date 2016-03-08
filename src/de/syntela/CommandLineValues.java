@@ -19,8 +19,15 @@ public class CommandLineValues {
     /**
      * Argument
      */
+    @Option(name = "-o", aliases = { "--outputFileName" }, required = false,
+            usage = "outputFile Name ")
+    private String outputFileName;
+
+    /**
+     * Argument
+     */
     @Option(name = "-x", aliases = { "--xmlFile" }, required = true,
-            usage = "input XML file ")
+            usage = "outputFile Name ")
     private String xmlFile;
 
     /**
@@ -79,6 +86,14 @@ public class CommandLineValues {
      */
     public String getJasperFile() {
         return jasperFile;
+    }
+
+    /**
+     * Gibt den Output File Namen zurück.
+     * @return outputFileName
+     */
+    public String getOutputFileName() {
+        return outputFileName;
     }
 }
 
