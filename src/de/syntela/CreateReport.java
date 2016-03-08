@@ -60,12 +60,12 @@ public class CreateReport {
             logger.debug("creating print Object from the xml File and Jasper File.");
             Map<String, Object> parameter = new HashMap<>();
             File file = new File(xmlfile);
-            JRXmlDataSource jrds = new JRXmlDataSource(file, "*/*");
+            //JRXmlDataSource jrds = new JRXmlDataSource(file, "*/*");
             Document document = JRXmlUtils.parse(file);
             parameter.put(JRXPathQueryExecuterFactory.PARAMETER_XML_DATA_DOCUMENT, document);
             //parameter.put("parTest", "Test");
             logger.debug("Fill the print Object.");
-            print = JasperFillManager.fillReport(jasperfile,parameter, jrds);
+            print = JasperFillManager.fillReport(jasperfile,parameter);
         } catch (JRException e) {
             e.printStackTrace();
             logger.error(e.getMessage());
