@@ -16,6 +16,7 @@ public class Main {
         CmdLineParser parser = new CmdLineParser(values);
 
         try {
+            logger.debug("begin parsing the ComandLine Arguments");
             parser.parseArgument(args);
         } catch (CmdLineException e) {
             logger.error(e.getMessage());
@@ -23,6 +24,7 @@ public class Main {
         }
 
         if (values.isErrorFree()) {
+            logger.debug("begin creating the Jasper Report");
             CreateReport createReport = new CreateReport();
             createReport.setFilename(values.getJasperFile());
 
