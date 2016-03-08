@@ -4,20 +4,28 @@ package de.syntela;
 
 import java.io.File;
 
+import org.apache.log4j.Logger;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
 /**
- * This class handles the programs arguments.
+ * Diese Klasse verarbeitet die CommandLine Argumente.
  */
 public class CommandLineValues {
 
+    final static Logger logger = Logger.getLogger(CommandLineValues.class);
 
+    /**
+     * Argument
+     */
     @Option(name = "-x", aliases = { "--xmlFile" }, required = true,
             usage = "input XML file ")
     private String xmlFile;
 
+    /**
+     * Argument
+     */
     @Option(name = "-j", aliases = { "--jasperFile" }, required = true,
             usage = "input Jasper file ")
     private String jasperFile;
@@ -25,6 +33,10 @@ public class CommandLineValues {
 
     private boolean errorFree = false;
 
+    /**
+     * Die CommandLine Werte werden geparst und den richtigen Argument Variablen zugeordnet.
+     * @param args CommandLine Argumente
+     */
     public CommandLineValues(String... args) {
         CmdLineParser parser = new CmdLineParser(this);
         parser.setUsageWidth(80);
@@ -40,12 +52,12 @@ public class CommandLineValues {
         } catch (CmdLineException e) {
             System.err.println(e.getMessage());
             parser.printUsage(System.err);
+            logger.error(e.getMessage());
         }
     }
 
     /**
-     * Returns whether the parameters could be parsed without an
-     * error.
+     * Gibt ein fehler zurück wenn das Parsen gescheitert ist.
      *
      * @return true if no error occurred.
      */
@@ -54,18 +66,17 @@ public class CommandLineValues {
     }
 
     /**
-     * Returns the source file.
-     *
-     * @return The source file.
+     * Gibt den xml File Pfad zurück
+     * @return xmlFile
      */
- /*   public File getSource() {
-        return source;
-    }*/
-
     public String getXmlFile() {
         return xmlFile;
     }
 
+    /**
+     * Gibt den Jasper File Pfad zurück.
+     * @return jasperFile
+     */
     public String getJasperFile() {
         return jasperFile;
     }

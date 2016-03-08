@@ -18,18 +18,21 @@ public class Main {
         try {
             parser.parseArgument(args);
         } catch (CmdLineException e) {
+            logger.error(e.getMessage());
             System.exit(1);
         }
 
-        CreateReport createReport = new CreateReport();
-        createReport.setFilename(values.getJasperFile());
+        if (values.isErrorFree()) {
+            CreateReport createReport = new CreateReport();
+            createReport.setFilename(values.getJasperFile());
 
-        JasperPrint print = createReport.printFromXml(values.getJasperFile(), values.getXmlFile());
-        createReport.createPdf(print);
-        createReport.createXls(print);
-        logger.info("creating end");
-        logger.info("================================================================================================");
-
+            JasperPrint print = createReport.printFromXml(values.getJasperFile(), values.getXmlFile());
+            createReport.createPdf(print);
+            createReport.createXls(print);
+        } else {
+            logger.error("Das Parsen der CommandLine Argumente ist gescheitert! Der Vorgang wurde abgebrochen.");
+        }
+        logger.info("End ================================================================================================ End");
     }
 
 }

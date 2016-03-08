@@ -19,34 +19,37 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by hsawade on 07.03.2016.
+ * Diese Klasse behandelt das erstellen der Reports in verschiedene Formate.
  */
 public class CreateReport {
     final static Logger logger = Logger.getLogger(CreateReport.class);
 
+    /**
+     * Pfad wo die Output Daten gepeichert werden sollen.
+     */
     static String outputPfad = "C:\\jasperoutput\\";
     String filename = "";
 
     /**
-     * Setzt den Pfad für die Ausgabe Datei
-     * @param outputPfad
+     * Setzt den Pfad für die Ausgabe Datei.
+     * @param outputPfad Ausgabepfad
      */
     public static void setOutputPfad(String outputPfad) {
         CreateReport.outputPfad = outputPfad;
     }
 
     /**
-     * Setzt den Filenamen der Jasper Datei
-     * @param filename
+     * Setzt den Filenamen der Jasper Datei.
+     * @param filename Filename der Jasper Datei
      */
     public void setFilename(String filename) {
         this.filename = filename;
     }
 
     /**
-     * Erzeugt aus einer JasperReports Vorlage (.jasper) und ener XML Datenquelle ein JasperPrint Element.
-     * @param jasperfile
-     * @param xmlfile
+     * Erzeugt aus einer JasperReport Vorlage (.jasper) und einer XML Datenquelle ein JasperPrint Objekt.
+     * @param jasperfile Jasper Report File.
+     * @param xmlfile XML Quelldatei.
      * @return JasperPrint Object
      */
     public JasperPrint printFromXml(String jasperfile, String xmlfile) {
@@ -54,37 +57,36 @@ public class CreateReport {
         String xmlPfad = "H:\\Bewilligungsbeispiele\\";
         String jasperPfad = "C:\\Users\\hsawade\\JaspersoftWorkspace\\Test\\";
         try {
-            Map parameter = new HashMap();
-            JRXmlDataSource jrds = new JRXmlDataSource(new File(xmlPfad + xmlfile), "*/*");
-            Document document = JRXmlUtils.parse(new File(xmlPfad + xmlfile));
+            Map<String, Object> parameter = new HashMap<>();
+            File file = new File(xmlPfad + xmlfile);
+            JRXmlDataSource jrds = new JRXmlDataSource(file, "*/*");
+            Document document = JRXmlUtils.parse(file);
             parameter.put(JRXPathQueryExecuterFactory.PARAMETER_XML_DATA_DOCUMENT, document);
             //parameter.put("parTest", "Test");
             print = JasperFillManager.fillReport(jasperPfad + jasperfile,parameter, jrds);
-            logger.info("creaded JasperPrint File");
         } catch (JRException e) {
             e.printStackTrace();
-            logger.error(e);
+            logger.error(e.getMessage());
         }
         return print;
     }
 
     /**
-     * Erzeugt aus dem JasperPrint Element ein Pdf File
-     * @param print Object
+     * Erzeugt aus dem JasperPrint Objekt ein Pdf File.
+     * @param print Object für den Jasper Report
      */
     public void createPdf(JasperPrint print) {
         try {
             JasperExportManager.exportReportToPdfFile(print,outputPfad + filename + ".pdf");
-            logger.info("created " + filename + ".pdf file");
         } catch (JRException e) {
             e.printStackTrace();
-            logger.error(e);
+            logger.error(e.getMessage());
         }
     }
 
     /**
-     * Erzeugt aus dem JasperPrint Element ein Xls File
-      * @param print Object
+     * Erzeugt aus dem JasperPrint Objekt ein Xls File.
+      * @param print Object für den Jesper Report.
      */
     public void createXls(JasperPrint print) {
         try {
@@ -98,10 +100,9 @@ public class CreateReport {
             xlsReportConfiguration.setWhitePageBackground(false);
             xlsExporter.setConfiguration(xlsReportConfiguration);
             xlsExporter.exportReport();
-            logger.info("created " + filename + ".xls file");
         } catch (Exception e) {
             e.printStackTrace();
-            logger.error(e);
+            logger.error(e.getMessage());
         }
     }
 }
