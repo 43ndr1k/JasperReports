@@ -1,9 +1,6 @@
 package de.syntela;
 
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRXmlDataSource;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.query.JRXPathQueryExecuterFactory;
@@ -52,16 +49,16 @@ public class CreateReport {
      * @param xmlfile XML Quelldatei.
      * @return JasperPrint Object
      */
-    public JasperPrint printFromXml(String jasperfile, String xmlfile) {
+    public JasperPrint printFromXml(String jasperfile, File xmlfile) {
         JasperPrint print = null;
         //String xmlPfad = "H:\\Bewilligungsbeispiele\\";
         //String jasperPfad = "C:\\Users\\hsawade\\JaspersoftWorkspace\\Test\\";
         try {
             logger.debug("creating print Object from the xml File and Jasper File.");
             Map<String, Object> parameter = new HashMap<>();
-            File file = new File(xmlfile);
+            //File file = new File(xmlfile);
             //JRXmlDataSource jrds = new JRXmlDataSource(file, "*/*");
-            Document document = JRXmlUtils.parse(file);
+            Document document = JRXmlUtils.parse(xmlfile);
             parameter.put(JRXPathQueryExecuterFactory.PARAMETER_XML_DATA_DOCUMENT, document);
             //parameter.put("parTest", "Test");
             logger.debug("Fill the print Object.");

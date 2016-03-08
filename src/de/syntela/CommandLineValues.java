@@ -28,7 +28,7 @@ public class CommandLineValues {
      */
     @Option(name = "-x", aliases = { "--xmlFile" }, required = true,
             usage = "outputFile Name ")
-    private String xmlFile;
+    private File xmlFile;
 
     /**
      * Argument
@@ -50,11 +50,16 @@ public class CommandLineValues {
         try {
             parser.parseArgument(args);
 
-        /*    if (!getSource().isFile()) {
+            if (!getXmlFile().isFile()) {
                 throw new CmdLineException(parser,
-                        "--input is no valid input file.");
+                        "--xmlFile is no valid input file.");
             }
-*/
+
+            if (!getJasperFile().endsWith(".jasper")) {
+                throw new CmdLineException(parser,
+                        "--jasperFile is no valid input file.");
+            }
+
             errorFree = true;
         } catch (CmdLineException e) {
             System.err.println(e.getMessage());
@@ -76,7 +81,7 @@ public class CommandLineValues {
      * Gibt den xml File Pfad zurück
      * @return xmlFile
      */
-    public String getXmlFile() {
+    public File getXmlFile() {
         return xmlFile;
     }
 
