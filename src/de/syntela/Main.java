@@ -30,9 +30,22 @@ public class Main {
                 createReport.setFilename(values.getOutputFileName());
             }
 
+            long start = System.currentTimeMillis();
             JasperPrint print = createReport.printFromXml(values.getJasperFile(), values.getXmlFile());
-            createReport.createPdf(print);
-            createReport.createXls(print);
+
+            switch (values.getFormat()) {
+                case "pdf":
+                    createReport.createPdf(print);
+                    break;
+                case "xls":
+                    createReport.createXls(print);
+                    break;
+                default:
+                    createReport.createPdf(print);
+            }
+
+
+            System.err.println("Filling time : " + (System.currentTimeMillis() - start));
         } else {
             logger.error("Das Parsen der CommandLine Argumente ist gescheitert! Der Vorgang wurde abgebrochen.");
         }

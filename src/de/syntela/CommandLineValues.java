@@ -37,6 +37,12 @@ public class CommandLineValues {
             usage = "input Jasper file ")
     private String jasperFile;
 
+    /**
+     * Argument
+     */
+    @Option(name = "-f", aliases = { "--format" }, required = false,
+            usage = "Output File Format ")
+    private String format;
 
     private boolean errorFree = false;
 
@@ -99,6 +105,14 @@ public class CommandLineValues {
      */
     public String getOutputFileName() {
         return outputFileName;
+    }
+
+    /**
+     * Gibt das Ausgabeformat zurück also z.b. pdf
+     * @return
+     */
+    public String getFormat() {
+        return format;
     }
 }
 
