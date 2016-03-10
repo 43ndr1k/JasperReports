@@ -42,7 +42,7 @@ public class CommandLineValues {
      */
     @Option(name = "-f", aliases = { "--format" }, required = false,
             usage = "Output File Format ")
-    private String format;
+    private String format="";
 
     private boolean errorFree = false;
 
